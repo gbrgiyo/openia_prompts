@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: app-job-rsync
+spec:
+  template:
+    spec:
+      containers:
+      - name: app-job-rsync
+        image: google/cloud-sdk:275.0.0-alpine
+        command:
+        - /bin/sh
+        volumeMounts:
+        - name: gce-persistent-disk
+          mountPath: /data
+      volumes:
+      - name: gce-persistent-disk
+        gcePersistentDisk:
+          pdName: <YOUR PD NAME HERE>
+          fsType: ext4
